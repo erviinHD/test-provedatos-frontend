@@ -1,0 +1,428 @@
+<div class="row m-4">
+  <div class="alert alert-info text-center" role="alert"> {{!id?'CREAR EMPLEADO':'EDITAR EMPLEADO'}}</div>
+</div>
+<div class="row m-4">
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button
+        class="nav-link active"
+        id="home-tab"
+        data-bs-toggle="tab"
+        data-bs-target="#home-tab-pane"
+        type="button"
+        role="tab"
+        aria-controls="home-tab-pane"
+        aria-selected="true"
+      >
+        Datos personales
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button
+        class="nav-link"
+        id="profile-tab"
+        data-bs-toggle="tab"
+        data-bs-target="#profile-tab-pane"
+        type="button"
+        role="tab"
+        aria-controls="profile-tab-pane"
+        aria-selected="false"
+      >
+        Datos Laborales
+      </button>
+    </li>
+  </ul>
+  <div class="row fixed-top padd" *ngIf="showAlert">
+    <div class="col-md-4"></div>
+    <div class="col-md-8">
+      <div
+        class="alert alert-{{ alertType }} alert-dismissible fade show"
+        role="alert"
+      >
+        {{ alertMessage }}
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Close"
+          (click)="showAlert = false"
+        ></button>
+      </div>
+    </div>
+  </div>
+  <div class="tab-content" id="myTabContent">
+    <div
+      class="tab-pane fade show active"
+      id="home-tab-pane"
+      role="tabpanel"
+      aria-labelledby="home-tab"
+      tabindex="0"
+    >
+      <form [formGroup]="userForm">
+        <div class="row">
+          <div class="col">
+            <div class="my-3">
+              <label for="exampleFormControlInput1" class="form-label"
+                >Nombres <span class="text-danger">*</span></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="exampleFormControlInput1"
+                formControlName="name"
+                [ngClass]="{
+                  'is-invalid':
+                    userForm.get('name')?.errors &&
+                    userForm.get('name')?.touched
+                }"
+              />
+            </div>
+          </div>
+          <div class="col">
+            <div class="my-3">
+              <label for="exampleFormControlInput1" class="form-label"
+                >Apellidos <span class="text-danger">*</span></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="exampleFormControlInput1"
+                formControlName="last_name"
+                [ngClass]="{
+                  'is-invalid':
+                    userForm.get('last_name')?.errors &&
+                    userForm.get('last_name')?.touched
+                }"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label for="dni" class="form-label"
+              >Cédula <span class="text-danger">*</span></label
+            >
+            <input
+              (keypress)="onlyNumbers($event)"
+              type="text"
+              class="form-control"
+              id="dni"
+              formControlName="dni"
+              [ngClass]="{
+                'is-invalid':
+                  userForm.get('dni')?.errors && userForm.get('dni')?.touched
+              }"
+            />
+          </div>
+          <div class="col">
+            <div class="mb-3">
+              <label for="province" class="form-label"
+                >Provincia <span class="text-danger">*</span></label
+              >
+              <select
+                class="form-select"
+                id="province"
+                aria-label="Floating label select example"
+                formControlName="province"
+                [ngClass]="{
+                  'is-invalid':
+                    userForm.get('province')?.errors &&
+                    userForm.get('province')?.touched
+                }"
+              >
+                @for (province of provinces; track $index) {
+                <option [value]="province.nombre_provincia">
+                  {{ province.nombre_provincia }}
+                </option>
+                }
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="mb-3">
+              <label for="date_birth" class="form-label"
+                >Fecha de Nacimiento <span class="text-danger">*</span></label
+              >
+              <input
+                type="date"
+                class="form-control"
+                id="date_birth"
+                formControlName="date_birth"
+                [ngClass]="{
+                  'is-invalid':
+                    userForm.get('date_birth')?.errors &&
+                    userForm.get('date_birth')?.touched
+                }"
+              />
+            </div>
+          </div>
+          <div class="col">
+            <div class="mb-3">
+              <label for="email" class="form-label"
+                >Email <span class="text-danger">*</span></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="email"
+                placeholder="correo-personal@email.com"
+                formControlName="email"
+                [ngClass]="{
+                  'is-invalid':
+                    userForm.get('email')?.errors &&
+                    userForm.get('email')?.touched
+                }"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 col-sm-12">
+            <div class="mb-3">
+              <label for="observation" class="form-label">Observaciones</label>
+              <textarea
+                rows="5"
+                type="text"
+                class="form-control"
+                id="observation"
+                placeholder="Comentario u observación referente a la ficha personal"
+                formControlName="observation"
+              ></textarea>
+            </div>
+          </div>
+          <div class="col-md-6 col-sm-12">
+            <div class="mb-3">
+              <label for="image" class="form-label">Fotografía</label>
+
+              <div class="row">
+                <div
+                  class="col d-flex justify-content-center align-items-center"
+                >
+                  <img
+                    [src]="imageSrc || 'assets/img/usuario.png'"
+                    alt="Image Preview"
+                    class="img-thumbnail"
+                  />
+                </div>
+                <div
+                  class="col d-flex justify-content-center align-items-center"
+                >
+                  <label class="btn btn-primary"
+                    >Cargar Imagen
+                    <input
+                      type="file"
+                      class="form-control required d-none"
+                      id="image"
+                      name="image"
+                      (change)="onFileSelected($event)"
+                    />
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div
+      class="tab-pane fade mt-3"
+      id="profile-tab-pane"
+      role="tabpanel"
+      aria-labelledby="profile-tab"
+      tabindex="0"
+    >
+      <form [formGroup]="userForm">
+        <div class="row">
+          <div class="col">
+            <div class="mb-3">
+              <label for="date_start" class="form-label"
+                >Fecha de Ingreso <span class="text-danger">*</span></label
+              >
+              <input
+                type="date"
+                class="form-control"
+                id="date_start"
+                formControlName="date_start"
+                [ngClass]="{
+                  'is-invalid':
+                    userForm.get('date_start')?.errors &&
+                    userForm.get('date_start')?.touched
+                }"
+              />
+            </div>
+          </div>
+          <div class="col">
+            <div class="mb-3">
+              <label for="role" class="form-label"
+                >Cargo <span class="text-danger">*</span></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="role"
+                formControlName="role"
+                [ngClass]="{
+                  'is-invalid':
+                    userForm.get('role')?.errors &&
+                    userForm.get('role')?.touched
+                }"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label for="department" class="form-label"
+              >Departamento <span class="text-danger">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="department"
+              formControlName="department"
+              [ngClass]="{
+                'is-invalid':
+                  userForm.get('department')?.errors &&
+                  userForm.get('department')?.touched
+              }"
+            />
+          </div>
+          <div class="col">
+            <div class="mb-3">
+              <label for="province_work" class="form-label"
+                >Provincia <span class="text-danger">*</span></label
+              >
+              <select
+                class="form-select"
+                id="province_work"
+                aria-label="Floating label select example"
+                formControlName="province_work"
+                [ngClass]="{
+                  'is-invalid':
+                    userForm.get('province_work')?.errors &&
+                    userForm.get('province_work')?.touched
+                }"
+              >
+                @for (province of provinces; track $index) {
+                <option [value]="province.nombre_provincia">
+                  {{ province.nombre_provincia  }}
+                </option>
+                }
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="mb-3">
+              <label for="salary" class="form-label"
+                >Sueldo <span class="text-danger">*</span></label
+              >
+              <div class="input-group">
+                <input
+                  type="number"
+                  placeholder="530.00"
+                  class="form-control"
+                  formControlName="salary"
+                  id="salary"
+                  step="0.01"
+                  [ngClass]="{
+                    'is-invalid':
+                      userForm.get('salary')?.errors &&
+                      userForm.get('salary')?.touched
+                  }"
+                />
+                <span class="input-group-text">USD</span>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="mb-3">
+              <label for="part_time" class="form-label">Jornada Parcial</label>
+              <div class="mt-1">
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    formControlName="part_time"
+                    id="inlineRadio1"
+                    value="1"
+                  />
+                  <label class="form-check-label" for="inlineRadio1">Sí</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    formControlName="part_time"
+                    id="inlineRadio2"
+                    value="0"
+                  />
+                  <label class="form-check-label" for="inlineRadio2">No</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="mb-3">
+              <label for="exampleFormControlInput1" class="form-label"
+                >Observaciones</label
+              >
+              <textarea
+                rows="5"
+                type="text"
+                class="form-control"
+                id="exampleFormControlInput1"
+                placeholder="Comentario u observación referente a la ficha laboral"
+                formControlName="observation_work"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <footer class="text-center text-white">
+    <div class="container py-4">
+      <div class="row">
+        <div class="col-md-4 py-2">
+          <button
+            type="button"
+            class="w-50 btn btn-success"
+            [disabled]="userForm.invalid"
+            (click)="onSubmit()"
+          >
+            Guardar
+          </button>
+        </div>
+        <div class="col-md-4 py-2">
+          <button
+            routerLink="/users/report"
+            type="button"
+            class="w-50 btn btn-warning"
+          >
+            Reporte
+          </button>
+        </div>
+
+        <div class="col py-2">
+          <button
+            routerLink="/users/list"
+            type="button"
+            class="w-50 btn btn-danger"
+          >
+            Salir
+          </button>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>

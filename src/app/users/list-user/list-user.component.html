@@ -1,0 +1,70 @@
+<div class="row m-4 px-5">
+  <div class="col-md-4">
+    <div class="mb-3">
+      <label for="exampleFormControlInput1" class="form-label">Nombre</label>
+      <input
+        type="text"
+        class="form-control"
+        id="exampleFormControlInput1"
+        placeholder="Usuario"
+        [(ngModel)]="name"
+      />
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="mb-3">
+      <label for="exampleFormControlInput1" class="form-label">Código</label>
+      <input
+        type="text"
+        class="form-control"
+        id="exampleFormControlInput1"
+        placeholder="XXXX"
+        [(ngModel)]="code"
+      />
+    </div>
+  </div>
+  <div class="col-md-4">
+    <button
+      type="button"
+      class="w-100 btn btn-info"
+      style="margin-top: 1.9rem"
+      (click)="getUsers()"
+    >
+      Buscar
+    </button>
+
+  </div>
+</div>
+
+<div class="row m-4 px-5">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">NOMBRE</th>
+        <th scope="col">CÓDIGO</th>
+        <th scope="col">ESTADO</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (user of users; track $index) {
+      <tr (click)="goToUpdate(user.id)">
+        <td>{{ user.name | uppercase }} {{ user.last_name | uppercase }}</td>
+        <td>{{ user.code }}</td>
+        <td>{{ user.status | uppercase }}</td>
+      </tr>
+      }
+    </tbody>
+  </table>
+  @if (users.length == 0){
+  <div class="card">
+    <div class="card-header">Resultado</div>
+    <div class="card-body">
+      <blockquote class="blockquote mb-0">
+        <p>No se han encontrado Resultados con para: {{ name }}</p>
+      </blockquote>
+    </div>
+  </div>
+  }
+</div>
+
+<app-footer></app-footer>

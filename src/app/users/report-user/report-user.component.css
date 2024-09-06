@@ -1,0 +1,15 @@
+th {
+  background-color: rgb(63, 143, 218);
+  color: white;
+  font-size: smaller;
+  font-weight: 400;
+}
+
+td {
+  font-size: smaller;
+}
+
+.cursor {
+  cursor: pointer;
+  text-decoration: none;
+}

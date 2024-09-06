@@ -1,0 +1,53 @@
+<div class="row m-4">
+  <div class="alert alert-info text-center" role="alert">REPORTE EMPLEADO</div>
+</div>
+
+<div class="row m-4 overflow-x-scroll">
+  <table class="table border table-sm">
+    <thead>
+      <tr>
+        <th scope="col" class="align-middle">
+          <a class="icon-link text-light cursor" (click)="sortByName()">
+            NOMBRE
+            <i class="bi bi-filter"></i>
+          </a>
+        </th>
+        <th scope="col" class="align-middle">CÉDULA</th>
+        <th scope="col" class="align-middle">CÓDIGO</th>
+        <th scope="col" class="align-middle">DIRECCIÓN</th>
+        <th scope="col" class="align-middle">FECHA NACIMIENTO</th>
+        <th scope="col" class="align-middle">OBSERVACIÓN</th>
+        <th scope="col" class="align-middle">CORREO</th>
+        <th scope="col" class="align-middle">FECHA INGRESO</th>
+        <th scope="col" class="align-middle">CARGO</th>
+        <th scope="col" class="align-middle">DEPARTAMENTO</th>
+        <th scope="col" class="align-middle">PROVINCIA</th>
+        <th scope="col" class="align-middle">SUELDO</th>
+        <th scope="col" class="align-middle">JORNADA PARCIAL</th>
+        <th scope="col" class="align-middle">OBSERVACIONES</th>
+      </tr>
+    </thead>
+    <tbody class="table-group-divider">
+      @for (user of users; track $index) {
+      <tr>
+        <td>{{ user.name | uppercase }} {{ user.last_name | uppercase }}</td>
+        <td>{{ user.dni }}</td>
+        <td>{{ user.code }}</td>
+        <td>{{ user.province | uppercase }}</td>
+        <td>{{ user.date_birth | date : "shortDate" }}</td>
+        <td>{{ user.observation }}</td>
+        <td>{{ user.email | uppercase }}</td>
+        <td>{{ user.date_start | date : "shortDate" }}</td>
+        <td>{{ user.role | uppercase }}</td>
+        <td>{{ user.department | uppercase }}</td>
+        <td>{{ user.province_work | uppercase }}</td>
+        <td>{{ user.salary }}</td>
+        <td>{{ user.part_time ? "SI" : "NO" }}</td>
+        <td>{{ user.observation_work | uppercase }}</td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>
+
+<app-footer></app-footer>

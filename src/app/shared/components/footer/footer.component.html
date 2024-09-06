@@ -1,0 +1,38 @@
+
+<div class="footer">
+  <footer class="text-center text-white">
+    <div class="container py-4">
+      <div class="row">
+        @if (routeCurrenlly !== 'report') {
+        <div class="col-md-4 py-2">
+          <button
+            type="button"
+            class="w-50 btn btn-success"
+            routerLink="/users/create"
+          >
+            Crear
+          </button>
+        </div>
+        <div class="col-md-4 py-2">
+          <button
+            routerLink="/users/report"
+            type="button"
+            class="w-50 btn btn-warning"
+          >
+            Reporte
+          </button>
+        </div>
+        }
+        <div class="col py-2">
+          <button
+            routerLink="/users/list"
+            type="button"
+            class="w-50 btn btn-danger"
+          >
+            Salir
+          </button>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
